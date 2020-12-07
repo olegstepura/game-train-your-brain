@@ -1,3 +1,8 @@
+:root {
+  --border-radius-base: 4px;
+  --vh: 1vh;
+}
+
 body {
   background: #282c34;
   margin: 0;
@@ -10,8 +15,4 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-:root {
-  --border-radius-base: 4px;
 }
