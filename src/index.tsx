@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { StoreProvider } from 'store/store';
 import './index.css';
-import App from './components/App/App';
 import reportWebVitals from './utils/reportWebVitals';
 import './utils/mobile100vhFix';
+import Board from './components/Board/Board';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App/>
+    <StoreProvider>
+      <Board/>
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
