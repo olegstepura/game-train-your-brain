@@ -34,7 +34,6 @@ export const getRandomSequence = (): Sequence => {
   for (let i = 0; i < Positions.length; i++) {
     sequence[Positions[i]] = getRandomColor(Object.values(sequence));
   }
-  console.log('New random sequence', sequence, Object.values(sequence).map(v => Colors.indexOf(v) + 1));
   return sequence;
 }
 

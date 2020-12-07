@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from 'store/store';
-import { ActionType, GameStatus } from 'store/types';
+import { ActionType, Colors, GameStatus } from 'store/types';
 import BoardLines from './BoardLine/BoardLines';
 import BoardHidden from './BoardHidden/BoardHidden';
 import './Board.css';
@@ -9,6 +9,10 @@ const Board = () => {
   const { state, dispatch } = useContext(Context);
 
   const startGame = () => dispatch({ type: ActionType.GameStart });
+
+  useEffect(() => {
+    console.log('New random sequence', Object.values(state.hidden).map(v => Colors.indexOf(v) + 1));
+  }, [state.hidden])
 
   if (state.status === GameStatus.GameWin) {
     return (
