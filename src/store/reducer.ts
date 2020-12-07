@@ -12,6 +12,7 @@ import {
   State,
 } from './types';
 import { linesAmount } from 'config';
+import isProd from 'utils/isProd';
 
 /**
  * Creates random color
@@ -164,5 +165,4 @@ const LoggableReducer = (state: State, action: Action): State => {
   return newState;
 };
 
-export default LoggableReducer;
-// export default Reducer;
+export default isProd ? Reducer : LoggableReducer;

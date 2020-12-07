@@ -27,6 +27,8 @@
 .Board-msg {
   color: rgba(255, 255, 255, 0.5);
   font-size: 1.4rem;
+  margin-top: 10px;
+  text-shadow: rgba(0, 0, 0, 0.3) 0 0 5px;
 }
 
 .Board-credentials {
@@ -35,6 +37,16 @@
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.8em;
   text-align: center;
+  line-height: 1.4;
+}
+
+.Board-credentials a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+.Board-credentials a:hover {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .Board-win-overlay {

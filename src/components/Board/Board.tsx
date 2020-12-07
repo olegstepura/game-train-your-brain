@@ -3,6 +3,7 @@ import { Context } from 'store/store';
 import { ActionType, Colors, GameStatus } from 'store/types';
 import BoardLines from './BoardLine/BoardLines';
 import BoardHidden from './BoardHidden/BoardHidden';
+import isProd from 'utils/isProd';
 import './Board.css';
 
 const Board = () => {
@@ -11,7 +12,10 @@ const Board = () => {
   const startGame = () => dispatch({ type: ActionType.GameStart });
 
   useEffect(() => {
-    console.log('New random sequence', Object.values(state.hidden).map(v => Colors.indexOf(v) + 1));
+    const hidden = Object.values(state.hidden);
+    if (!isProd && hidden.length) {
+      console.log(`Currently hidden: ${hidden.map(v => Colors.indexOf(v) + 1).join(', ')}`);
+    }
   }, [state.hidden])
 
   if (state.status === GameStatus.GameWin) {
@@ -32,10 +36,13 @@ const Board = () => {
   if (state.status === GameStatus.WelcomeScreen) {
     return (
       <div className="Board Board-start" onClick={startGame}>
-        <img src="logo.png" alt="App logo" className="App-logo"/>
+        <img src="logo.png" alt="App logo" className="App-logo" />
         <span className="Board-msg">Click to start</span>
         <div className="Board-credentials">
-          Weekend React.js project by Oleg Stepura<br />
+          <a href="https://github.com/olegstepura/game-train-your-brain" target="brain-github">
+            Weekend React.js project by Oleg Stepura
+          </a>
+          <br />
           Logo designed by Anastasiya Stepura
         </div>
       </div>
