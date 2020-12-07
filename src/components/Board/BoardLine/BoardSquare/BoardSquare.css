@@ -1,0 +1,19 @@
+.BoardSquare {
+  width: 80%;
+  height: 80%;
+  max-width: 30px;
+  max-height: 30px;
+  border: 1px solid white;
+  margin: 0 10px;
+  border-radius: 50%;
+  transition: box-shadow 0.2s linear;
+  opacity: 0.6;
+}
+
+.BoardSquare--active {
+  box-shadow: #fff 0 0 5px inset;
+}
+
+.BoardLine--active .BoardSquare {
+  opacity: 1;
+}

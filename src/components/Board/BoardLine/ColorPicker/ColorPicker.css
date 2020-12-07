@@ -1,0 +1,39 @@
+.ColorPicker {
+  position: absolute;
+  left: 5px;
+  top: -35px;
+  display: flex;
+  background-color: #7a7f86;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 20px;
+  border-radius: var(--border-radius-base);
+  padding: 5px;
+}
+
+.ColorPicker-anchor {
+  position: absolute;
+  content: "";
+  border-width: 10px;
+  border-style: solid;
+  border-color: #7a7f86 transparent transparent transparent;
+  top: 40px;
+  left: 10px;
+}
+
+.ColorPicker-item {
+  width: 28px;
+  height: 28px;
+  margin-left: 5px;
+  border-radius: var(--border-radius-base);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  text-align: right;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+  font-size: 0.6em;
+  padding-right: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ColorPicker-item:first-child {
+  margin-left: 0;
+}
