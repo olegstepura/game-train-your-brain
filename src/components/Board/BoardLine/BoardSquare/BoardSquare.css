@@ -1,19 +1,20 @@
 .BoardSquare {
   width: 80%;
   height: 80%;
-  max-width: 30px;
-  max-height: 30px;
-  border: 1px solid white;
+  max-width: 40px;
+  max-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   margin: 0 10px;
   border-radius: 50%;
-  transition: box-shadow 0.2s linear;
-  opacity: 0.6;
-}
-
-.BoardSquare--active {
-  box-shadow: #fff 0 0 5px inset;
+  transition: all 0.2s linear;
+  box-sizing: border-box;
 }
 
 .BoardLine--active .BoardSquare {
-  opacity: 1;
+  border: 2px solid #fff;
+  box-shadow: rgba(0, 0, 0, 0.8) 0 0 2px inset;
+}
+
+.BoardLine--active .BoardSquare--active {
+  box-shadow: #fff 0 0 5px inset;
 }

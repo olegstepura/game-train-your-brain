@@ -1,13 +1,9 @@
 import { useContext } from 'react';
 import { Context } from 'store/store';
 import './BoardHidden.css';
-import { GameStatus, Positions } from 'store/types';
+import { GameStatus, Positions, WithOnClick } from 'store/types';
 
-interface BoardGuessedProps {
-  onClick: () => void
-}
-
-const BoardHidden = (props: BoardGuessedProps) => {
+const BoardHidden = (props: WithOnClick) => {
   const { state } = useContext(Context);
   const { onClick } = props;
   const squares = [];
@@ -17,7 +13,7 @@ const BoardHidden = (props: BoardGuessedProps) => {
       <div
         key={`hidden-${i}`}
         className={`BoardSquare ${state.status === GameStatus.GameWin ? '' : 'BoardSquare--hidden'}`}
-        style={state.status === GameStatus.GameWin ? { backgroundColor: state.hidden[Positions[i]] } : {}}
+        style={[GameStatus.GameOver, GameStatus.GameWin].includes(state.status) ? { backgroundColor: state.hidden[Positions[i]] } : {}}
       />,
     );
   }
@@ -25,7 +21,7 @@ const BoardHidden = (props: BoardGuessedProps) => {
   return (
     <div className="BoardHidden" onClick={onClick} title="Click to start new game">
       {squares}
-      <div className="BoardLine-Result"/>
+      <div className="BoardLine__Result"/>
     </div>
   );
 };

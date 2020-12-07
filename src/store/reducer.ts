@@ -64,7 +64,7 @@ const getInitialState = (initData: boolean): State => {
 /**
  * Initial state.
  */
-export const initialState: State = getInitialState(false);
+export const initialState: State = getInitialState(true);
 
 /**
  * Checks if given line can be submitted.
@@ -111,10 +111,9 @@ const Reducer = (state: State, action: Action): State => {
 
     case ActionType.LineFinish:
       const finishedLine = action.payload as number;
-      let status = GameStatus.GameActive;
+      let status: GameStatus = GameStatus.GameActive;
 
       if (finishedLine === linesAmount - 1) {
-        console.info('Game over');
         status = GameStatus.GameOver;
       }
 

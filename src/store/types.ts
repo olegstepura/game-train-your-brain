@@ -61,6 +61,10 @@ export interface ChangeColorPayload {
   color: Color
 }
 
+export interface WithOnClick {
+  onClick: () => void
+}
+
 export type Action =
   | { type: ActionType.GameStart }
   | { type: ActionType.LineFinish, payload: number }

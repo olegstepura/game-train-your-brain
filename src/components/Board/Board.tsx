@@ -1,15 +1,26 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from 'store/store';
 import { ActionType, Colors, GameStatus } from 'store/types';
 import BoardLines from './BoardLine/BoardLines';
 import BoardHidden from './BoardHidden/BoardHidden';
 import isProd from 'utils/isProd';
+import BoardInfo from './BoardInfo/BoardInfo';
+import BoardWelcome from './BoardWelcome/BoardWelcome';
 import './Board.css';
 
 const Board = () => {
   const { state, dispatch } = useContext(Context);
+  const infoInitial = localStorage.getItem('os-info-shown') !== 'true';
+  const [infoShown, showInfo] = useState(infoInitial);
 
-  const startGame = () => dispatch({ type: ActionType.GameStart });
+  const startGame = () => {
+    dispatch({ type: ActionType.GameStart });
+  }
+
+  const hideOverlay = () => {
+    showInfo(false);
+    localStorage.setItem('os-info-shown', 'true');
+  }
 
   useEffect(() => {
     const hidden = Object.values(state.hidden);
@@ -18,41 +29,45 @@ const Board = () => {
     }
   }, [state.hidden])
 
+  if (state.status === GameStatus.WelcomeScreen) {
+    return <BoardWelcome onClick={startGame}/>;
+  }
+
+  let overlay;
   if (state.status === GameStatus.GameWin) {
-    return (
-      <div className="Board Board-win" onClick={() => dispatch({ type: ActionType.GameStart })}>
-        <BoardHidden onClick={startGame} />
-        <BoardLines/>
-        <div className="Board-win-overlay">
-          <div>
-            <div>🎉</div>
-            <div className="Board-msg">Congratulations!<br/>Click to play again</div>
-          </div>
+    overlay = (
+      <div className="Board__Overlay" onClick={startGame}>
+        <div>
+          <div>🎉</div>
+          <div className="Board__Msg">Congratulations!<br/>Click to play again</div>
         </div>
       </div>
     );
   }
 
-  if (state.status === GameStatus.WelcomeScreen) {
-    return (
-      <div className="Board Board-start" onClick={startGame}>
-        <img src="logo.png" alt="App logo" className="App-logo" />
-        <span className="Board-msg">Click to start</span>
-        <div className="Board-credentials">
-          <a href="https://github.com/olegstepura/game-train-your-brain" target="brain-github">
-            Weekend React.js project by Oleg Stepura
-          </a>
-          <br />
-          Logo designed by Anastasiya Stepura
+  if (state.status === GameStatus.GameOver) {
+    overlay = (
+      <div className="Board__Overlay" onClick={startGame}>
+        <div>
+          <div>❌</div>
+          <div className="Board__Msg">Game over!<br/>Click to play again</div>
         </div>
       </div>
     );
   }
+
+  if (infoShown) {
+    overlay = <BoardInfo onClick={hideOverlay} />;
+  }
+
+  const hasOverlay = [GameStatus.GameWin, GameStatus.GameOver].includes(state.status) || infoShown;
 
   return (
-    <div className="Board">
-      <BoardHidden onClick={startGame} />
+    <div className={`Board ${hasOverlay ? 'Board-with-overlay' : ''}`}>
+      <BoardHidden onClick={startGame}/>
       <BoardLines/>
+      {overlay}
+      <button className="InfoButton" onClick={() => showInfo(!infoShown)}>ℹ️</button>
     </div>
   );
 };

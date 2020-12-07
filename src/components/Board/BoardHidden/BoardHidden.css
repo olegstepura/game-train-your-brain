@@ -1,14 +1,16 @@
 .BoardHidden {
-  margin: 1% 5px;
+  margin: 2% 5px 1%;
   border: 5px solid rgba(0, 0, 0, 0.2);
-  height: 9%;
+  height: 8%;
   display: flex;
   align-items: center;
   border-radius: var(--border-radius-base);
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.1);
   transition: background-color 2s ease-in;
+  cursor: pointer;
 }
 
 .BoardSquare--hidden {
   background-color: rgba(0, 0, 0, 0.2);
+  filter: blur(1px);
 }

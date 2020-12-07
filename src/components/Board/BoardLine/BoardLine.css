@@ -7,56 +7,45 @@
   position: relative;
 }
 
-.Board-win .BoardLine {
+.Board-with-overlay .BoardLine {
   filter: blur(8px);
 }
 
-.BoardLine-Result {
+.BoardLine__Result {
   display: flex;
   padding-left: 20px;
   min-width: 65px;
+  flex-grow: 1;
+  justify-content: center;
 }
 
-.BoardLine-Result-Item {
+.BoardLine__Result__Item {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   margin: 0 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.BoardLine-Result-ColorMatch {
+.BoardLine__Result__Item--ColorMatch {
   background-color: #fff;
 }
 
-.BoardLine-Result-PositionMatch {
+.BoardLine__Result__Item--PositionMatch {
   background-color: #000;
 }
 
 .BoardLine button {
   background-color: rgba(255, 255, 255, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: var(--border-radius-base);
   padding: 5px;
   width: 100%;
+  border-radius: 30px;
+  text-shadow: black 0 0 1px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 10px inset;
 }
 
-.BoardLine-select {
-  position: absolute;
-  height: 30px;
-  left: 5px;
-  top: -25px;
-  display: flex;
-  background-color: #53565c;
-  box-shadow: rgba(0, 0, 0, 0.5) 0 0 20px;
-  border: 5px solid #45464b;
-}
-
-.BoardLine-select-item {
-  width: 30px;
-  height: 100%;
-  border-left: 5px solid rgba(69, 70, 75, 0.8);
-}
-
-.BoardLine-select-item:first-child {
-  border-left: none;
+.BoardLine button:focus {
+  outline: none;
 }

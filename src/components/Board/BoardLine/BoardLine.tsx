@@ -4,7 +4,8 @@ import { ActionType, Color, Position, Positions } from 'store/types';
 import React, { useContext, useState } from 'react';
 import { Context } from 'store/store';
 import './BoardLine.css';
-import { getRandomSequence } from '../../../store/reducer';
+import { getRandomSequence } from 'store/reducer';
+import { completeLineText, randomColorsText } from 'config';
 
 interface BoardLineProps {
   line: number
@@ -29,9 +30,9 @@ const BoardLine = (props: BoardLineProps) => {
         })
       }
       return (
-        <div className="BoardLine-Result">
+        <div className="BoardLine__Result">
           <button onClick={clickHandler}>
-            ♻️
+            {randomColorsText}
           </button>
         </div>
       );
@@ -39,9 +40,9 @@ const BoardLine = (props: BoardLineProps) => {
 
     if (active && canSubmit) {
       return (
-        <div className="BoardLine-Result">
+        <div className="BoardLine__Result">
           <button onClick={() => dispatch({ type: ActionType.LineFinish, payload: line })}>
-            👍
+            {completeLineText}
           </button>
         </div>
       );
@@ -49,22 +50,37 @@ const BoardLine = (props: BoardLineProps) => {
 
     if (result) {
       return (
-        <div className="BoardLine-Result">
+        <div className="BoardLine__Result">
           {Array.from(Array(Positions.length - result.colorMatch - result.positionMatch)).map((_, index) => {
-            return <span key={`item-${index}`} className="BoardLine-Result-Item"/>;
+            return (
+              <span
+                key={`item-${index}`}
+                className="BoardLine__Result__Item"
+              />
+            );
           })}
           {Array.from(Array(result.colorMatch)).map((_, index) => {
-            return <span key={`item-cm-${index}`} className="BoardLine-Result-Item BoardLine-Result-ColorMatch"/>;
+            return (
+              <span
+                key={`item-cm-${index}`}
+                className="BoardLine__Result__Item BoardLine__Result__Item--ColorMatch"
+              />
+            );
           })}
           {Array.from(Array(result.positionMatch)).map((_, index) => {
-            return <div key={`item-pm-${index}`} className="BoardLine-Result-Item BoardLine-Result-PositionMatch"/>;
+            return (
+              <div
+                key={`item-pm-${index}`}
+                className="BoardLine__Result__Item BoardLine__Result__Item--PositionMatch"
+              />
+            );
           })}
         </div>
       );
     }
 
     return (
-      <div className="BoardLine-Result"/>
+      <div className="BoardLine__Result"/>
     );
   };
 
@@ -91,12 +107,25 @@ const BoardLine = (props: BoardLineProps) => {
     }
   };
 
+  const selectedColors: Color[] = [];
+  Positions
+    .map(position => state.lines[line][position])
+    .forEach(color => {
+      if (color) {
+        selectedColors.push(color);
+      }
+    })
+
   return (
     <div className={`BoardLine ${active ? 'BoardLine--active' : ''}`}>
       <BoardSquares line={line} onSquareClick={squareClickHandler} activePosition={activePosition}/>
       {renderResults()}
       {active && activePosition !== null
-        ? <ColorPicker onColorSelect={colorSelectHandler} targetOffsetX={targetOffset + 1}/>
+        ? <ColorPicker
+            onColorSelect={colorSelectHandler}
+            targetOffsetX={targetOffset + 5}
+            selectedColors={selectedColors}
+          />
         : null
       }
     </div>
