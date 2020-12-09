@@ -60,10 +60,8 @@ const Board = () => {
     overlay = <BoardInfo onClick={hideOverlay} />;
   }
 
-  const hasOverlay = [GameStatus.GameWin, GameStatus.GameOver].includes(state.status) || infoShown;
-
   return (
-    <div className={`Board ${hasOverlay ? 'Board-with-overlay' : ''}`}>
+    <div className={`Board ${overlay ? 'Board-with-overlay' : ''}`}>
       <BoardHidden onClick={startGame}/>
       <BoardLines/>
       {overlay}
