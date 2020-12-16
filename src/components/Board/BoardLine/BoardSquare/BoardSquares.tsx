@@ -8,7 +8,8 @@ interface BoardSquaresProps {
   onSquareClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, p: Position) => void
 }
 
-const BoardSquares = (props: BoardSquaresProps) => {
+// any because of https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
+const BoardSquares: any = (props: BoardSquaresProps) => {
   const squares = [];
   const { line, onSquareClick, activePosition } = props;
 
@@ -25,11 +26,7 @@ const BoardSquares = (props: BoardSquaresProps) => {
     );
   }
 
-  return (
-    <>
-      {squares}
-    </>
-  );
+  return squares;
 };
 
 

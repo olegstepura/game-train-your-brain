@@ -31,6 +31,9 @@ const BoardInfo = (props: WithOnClick) => {
       <p>
         You can restart game by clicking hidden area on top.
       </p>
+      <p>
+        Click to close this info and go back to game.
+      </p>
     </div>
   )
 }
