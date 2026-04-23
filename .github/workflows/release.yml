@@ -34,7 +34,7 @@ jobs:
         run: npm run build
 
       - name: Archive build
-        run: zip -r train-your-brain.zip dist/
+        run: zip -r train-your-brain.zip build/
 
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v3
