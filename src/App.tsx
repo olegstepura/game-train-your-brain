@@ -37,7 +37,7 @@ export const App = () => {
 
   return (
     <div className="game-root w-full h-full flex flex-col items-center justify-center font-body">
-      <div className="w-full max-w-[50em] flex flex-col space-y-[1.5em] flex-none">
+      <div className="w-full max-w-[50em] flex flex-col space-y-[1.5em] px-[2em] flex-none">
         <Header onRestart={restart} onShowHelp={() => setInfoOpen(true)} />
         <Board />
       </div>

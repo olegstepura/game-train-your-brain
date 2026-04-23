@@ -10,7 +10,7 @@ export const ForkMe = ({ url }: { url: string }) => {
             <svg
                 viewBox="0 0 250 250"
                 aria-hidden="true"
-                className="absolute top-0 right-0 border-0 w-16 h-16 z-50 
+                className="absolute top-0 right-0 border-0 w-12 h-12 sm:w-16 md:h-16 z-50 
              fill-[var(--color-surface-container-high)] 
              text-outline hover:text-on-surface
              transition-colors duration-300 ease-out"
