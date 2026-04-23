@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build application
-        run: npm build
+        run: npm run build
 
       - name: Archive build
         run: zip -r train-your-brain.zip dist/
