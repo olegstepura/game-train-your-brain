@@ -1,0 +1,47 @@
+version: '3'
+
+# Requires: https://taskfile.dev
+# Enable corepack once: `corepack enable`
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  install:
+    desc: Install dependencies with Yarn
+    cmds:
+      - corepack enable
+      - yarn install
+
+  dev:
+    desc: Start the Vite dev server
+    cmds:
+      - yarn dev
+
+  build:
+    desc: Type-check and build the production bundle
+    cmds:
+      - yarn build
+
+  preview:
+    desc: Preview the production build
+    deps: [build]
+    cmds:
+      - yarn preview
+
+  typecheck:
+    desc: Run TypeScript in no-emit mode
+    cmds:
+      - yarn typecheck
+
+  lint:
+    desc: Run ESLint
+    cmds:
+      - yarn lint
+
+  clean:
+    desc: Remove build artefacts and dependencies
+    cmds:
+      - rm -rf node_modules dist .yarn/cache .yarn/install-state.gz

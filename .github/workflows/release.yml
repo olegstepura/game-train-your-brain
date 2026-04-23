@@ -25,16 +25,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "14"
+          node-version: "24"
+          cache: "yarn"
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Build application
-        run: npm run build
+        run: yarn build
 
       - name: Archive build
-        run: zip -r train-your-brain.zip build/
+        run: zip -r train-your-brain.zip dist/
 
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v3
