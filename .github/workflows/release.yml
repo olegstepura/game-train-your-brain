@@ -1,0 +1,46 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. v1.0.0)"
+        required: true
+        type: string
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm build
+
+      - name: Archive build
+        run: zip -r train-your-brain.zip dist/
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ inputs.version || github.ref_name }}
+          name: Release ${{ inputs.version || github.ref_name }}
+          files: train-your-brain.zip
+          generate_release_notes: true
