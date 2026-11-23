@@ -37,7 +37,7 @@ export const Overlay = ({ onDismiss, children, labelledBy }: OverlayProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-[2em] bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-[2em] bg-black/60 backdrop-blur-xs"
       role="dialog"
       aria-modal="true"
       aria-labelledby={labelledBy}
@@ -51,7 +51,7 @@ export const Overlay = ({ onDismiss, children, labelledBy }: OverlayProps) => {
       <div
         ref={panelRef}
         tabIndex={-1}
-        className="glass-panel rounded-[2em] max-w-[60em] w-full p-[3em] relative overflow-hidden outline-none"
+        className="glass-panel rounded-[2em] max-w-[60em] w-full p-[3em] relative overflow-hidden outline-hidden"
       >
         <div className="noise-overlay" />
         {children}

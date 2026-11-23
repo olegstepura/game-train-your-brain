@@ -4,8 +4,8 @@ A cows and bows-style logic puzzle: break a hidden 4-color sequence in 10 attemp
 
 ## Stack
 
-- [Vite](https://vitejs.dev/) + [React 18](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/) + [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
 - [pnpm](https://pnpm.io/)
 - [Task](https://taskfile.dev/) for task running
 
