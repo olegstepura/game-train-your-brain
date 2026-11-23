@@ -6,13 +6,12 @@ A cows and bows-style logic puzzle: break a hidden 4-color sequence in 10 attemp
 
 - [Vite](https://vitejs.dev/) + [React 18](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Yarn 4](https://yarnpkg.com/) (via Corepack)
+- [pnpm](https://pnpm.io/)
 - [Task](https://taskfile.dev/) for task running
 
 ## Getting started
 
 ```sh
-corepack enable      # one-time, enables Yarn 4
 task install         # install dependencies
 task dev             # start dev server on :3003
 task test            # unit tests (Vitest)
