@@ -13,8 +13,18 @@ const readStored = (): Theme | null => {
   }
 };
 
+const store = (theme: Theme) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, theme);
+  } catch {
+    /* ignore */
+  }
+};
+
+const LIGHT_QUERY = '(prefers-color-scheme: light)';
+
 const systemPreference = (): Theme =>
-  window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  window.matchMedia?.(LIGHT_QUERY).matches ? 'light' : 'dark';
 
 const applyTheme = (theme: Theme) => {
   document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -27,15 +37,26 @@ applyTheme(initial);
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(initial);
 
-  useEffect(() => {
-    applyTheme(theme);
-    try {
-      localStorage.setItem(STORAGE_KEY, theme);
-    } catch {
-      /* ignore */
-    }
-  }, [theme]);
+  useEffect(() => applyTheme(theme), [theme]);
 
-  const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+  /* Until the player picks a theme, follow the OS setting, also when it
+     changes while the page is open. */
+  useEffect(() => {
+    const mq = window.matchMedia?.(LIGHT_QUERY);
+    if (!mq) return;
+    const onChange = () => {
+      if (readStored() === null) setTheme(mq.matches ? 'light' : 'dark');
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  /* Only an explicit choice is saved. Saving the detected default would pin
+     it and ignore later OS changes. */
+  const toggle = () => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark';
+    store(next);
+    setTheme(next);
+  };
   return { theme, toggle };
 };

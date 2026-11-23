@@ -6,6 +6,9 @@ import { Overlay } from './Overlay';
 interface EndGameOverlayProps {
   status: Extract<GameStatus, 'won' | 'lost'>;
   onRestart: () => void;
+  /** Closes the overlay and keeps the finished board (and the revealed
+   * sequence) on screen. */
+  onClose: () => void;
 }
 
 interface Copy {
@@ -20,11 +23,11 @@ const COPY: Record<'won' | 'lost', Copy> = {
   lost: { emoji: '💀', titleKey: 'lostTitle', bodyKey: 'lostBody', ctaKey: 'lostCta' },
 };
 
-export const EndGameOverlay = ({ status, onRestart }: EndGameOverlayProps) => {
+export const EndGameOverlay = ({ status, onRestart, onClose }: EndGameOverlayProps) => {
   const { t } = useI18n();
   const { emoji, titleKey, bodyKey, ctaKey } = COPY[status];
   return (
-    <Overlay onDismiss={onRestart} labelledBy="end-game-title">
+    <Overlay onDismiss={onClose} labelledBy="end-game-title">
       <div className="relative z-10 flex flex-col items-center text-center space-y-[1em]">
         <div className="text-[15em] leading-none" aria-hidden="true">
           {emoji}

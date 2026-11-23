@@ -41,6 +41,11 @@ tasks:
     cmds:
       - yarn lint
 
+  test:
+    desc: Run the unit tests
+    cmds:
+      - yarn test
+
   clean:
     desc: Remove build artefacts and dependencies
     cmds:

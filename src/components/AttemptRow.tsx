@@ -30,6 +30,10 @@ export const AttemptRow = ({ rowIdx, row, isActive }: AttemptRowProps) => {
   const { dispatch } = useGame();
   const { t } = useI18n();
   const [openPeg, setOpenPeg] = useState<number | null>(null);
+  /* Rows are keyed by index and outlive a game, so a picker left open when
+     the row was submitted or the game restarted would pop up again the next
+     time this row becomes active. Close it as soon as the row goes inactive. */
+  if (!isActive && openPeg !== null) setOpenPeg(null);
   const submittable = canSubmitRow(row);
   const isEmpty = row.pegs.every((p) => p === null);
   /* The last row's picker must flip above it, otherwise it goes off-screen

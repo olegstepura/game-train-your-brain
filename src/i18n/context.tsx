@@ -69,14 +69,18 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     document.documentElement.lang = lang;
+  }, [lang]);
+
+  /* Only an explicit choice is saved. Saving the detected language would
+     pin it and ignore a later change of the browser language. */
+  const setLang = useCallback((next: LanguageCode) => {
     try {
-      localStorage.setItem(STORAGE_KEY, lang);
+      localStorage.setItem(STORAGE_KEY, next);
     } catch {
       /* ignore */
     }
-  }, [lang]);
-
-  const setLang = useCallback((next: LanguageCode) => setLangState(next), []);
+    setLangState(next);
+  }, []);
 
   const value = useMemo<I18nValue>(() => {
     const dict = translations[lang];
