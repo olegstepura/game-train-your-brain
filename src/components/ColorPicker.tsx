@@ -1,4 +1,4 @@
-import { useEffect, type CSSProperties } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { PEG_COLORS, type ColorId } from '@/game/config';
 import { useI18n } from '@/i18n/context';
 import type { TranslationKey } from '@/i18n/locales';
@@ -43,6 +43,22 @@ export const ColorPicker = ({
   placement,
 }: ColorPickerProps) => {
   const { t } = useI18n();
+  const panelRef = useRef<HTMLDivElement>(null);
+  /* The peg that opened the picker. Captured on the first render, before
+     focus moves into the picker. */
+  const returnFocusTo = useRef(document.activeElement as HTMLElement | null);
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    panel?.querySelector<HTMLElement>('button:not([disabled])')?.focus();
+    const target = returnFocusTo.current;
+    return () => {
+      /* Only take focus back if it was lost with the picker. Don't steal it
+         from a control the player moved to, like the header buttons. */
+      const active = document.activeElement;
+      if (!active || active === document.body) target?.focus();
+    };
+  }, []);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -55,6 +71,7 @@ export const ColorPicker = ({
   return (
     <>
       <div
+        ref={panelRef}
         className="glass-panel p-[1em] rounded-[1em] flex gap-[0.7em] bloom-active"
         role="dialog"
         aria-label={t('pickerDialogLabel')}

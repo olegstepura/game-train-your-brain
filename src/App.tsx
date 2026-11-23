@@ -27,13 +27,21 @@ const markInfoSeen = () => {
 export const App = () => {
   const { state, dispatch } = useGame();
   const [infoOpen, setInfoOpen] = useState(firstVisit);
+  /* Set when the player closes the end-game overlay to look at the finished
+     board. Every new game clears it. */
+  const [endDismissed, setEndDismissed] = useState(false);
 
   const closeInfo = useCallback(() => {
     markInfoSeen();
     setInfoOpen(false);
   }, []);
 
-  const restart = useCallback(() => dispatch({ type: 'start' }), [dispatch]);
+  const restart = useCallback(() => {
+    setEndDismissed(false);
+    dispatch({ type: 'start' });
+  }, [dispatch]);
+
+  const closeEnd = useCallback(() => setEndDismissed(true), []);
 
   return (
     <div className="game-root w-full h-full flex flex-col items-center justify-center font-body">
@@ -45,8 +53,12 @@ export const App = () => {
       <ForkMe url="https://github.com/olegstepura/game-train-your-brain" />
 
       {infoOpen && <HowToPlay onClose={closeInfo} />}
-      {!infoOpen && state.status !== 'playing' && (
-        <EndGameOverlay status={state.status} onRestart={restart} />
+      {!infoOpen && !endDismissed && state.status !== 'playing' && (
+        <EndGameOverlay
+          status={state.status}
+          onRestart={restart}
+          onClose={closeEnd}
+        />
       )}
     </div>
   );

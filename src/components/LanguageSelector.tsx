@@ -1,36 +1,84 @@
-import { useEffect, useRef, useState } from 'react';
-import { SUPPORTED_LANGUAGES } from '@/i18n/config';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { SUPPORTED_LANGUAGES, type LanguageCode } from '@/i18n/config';
 import { useI18n } from '@/i18n/context';
 
 export const LanguageSelector = () => {
   const { lang, setLang, t } = useI18n();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const current = SUPPORTED_LANGUAGES.find((l) => l.code === lang) ?? SUPPORTED_LANGUAGES[0];
+
+  const options = () =>
+    Array.from(listRef.current?.querySelectorAll<HTMLElement>('[role="option"]') ?? []);
+
+  const close = (returnFocus: boolean) => {
+    setOpen(false);
+    if (returnFocus) triggerRef.current?.focus();
+  };
+
+  const choose = (code: LanguageCode) => {
+    setLang(code);
+    close(true);
+  };
 
   useEffect(() => {
     if (!open) return;
+    /* Move focus to the current language so arrow keys start from there. */
+    listRef.current?.querySelector<HTMLElement>('[aria-selected="true"]')?.focus();
     const handlePointer = (e: PointerEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     };
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
     document.addEventListener('pointerdown', handlePointer);
-    document.addEventListener('keydown', handleKey);
-    return () => {
-      document.removeEventListener('pointerdown', handlePointer);
-      document.removeEventListener('keydown', handleKey);
-    };
+    return () => document.removeEventListener('pointerdown', handlePointer);
   }, [open]);
+
+  const handleListKey = (e: KeyboardEvent<HTMLUListElement>) => {
+    const items = options();
+    const idx = items.indexOf(document.activeElement as HTMLElement);
+    const focusAt = (i: number) => items[(i + items.length) % items.length]?.focus();
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        focusAt(idx + 1);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        focusAt(idx - 1);
+        break;
+      case 'Home':
+        e.preventDefault();
+        focusAt(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        focusAt(items.length - 1);
+        break;
+      case 'Escape':
+        e.preventDefault();
+        close(true);
+        break;
+      case 'Tab':
+        close(false);
+        break;
+    }
+  };
 
   return (
     <div ref={containerRef} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
         aria-label={t('headerSelectLanguage')}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -46,6 +94,8 @@ export const LanguageSelector = () => {
       </button>
       {open && (
         <ul
+          ref={listRef}
+          onKeyDown={handleListKey}
           role="listbox"
           aria-label={t('headerSelectLanguage')}
           className="glass-panel absolute right-0 top-[calc(100%+0.5em)] z-50 rounded-[1em] p-[0.5em] min-w-[12em] flex flex-col gap-[0.2em]"
@@ -58,10 +108,8 @@ export const LanguageSelector = () => {
                   type="button"
                   role="option"
                   aria-selected={selected}
-                  onClick={() => {
-                    setLang(l.code);
-                    setOpen(false);
-                  }}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => choose(l.code)}
                   className={`w-full flex items-center gap-[0.7em] px-[0.8em] py-[0.6em] rounded-[0.7em] text-[1.4em] transition-colors ${selected
                     ? 'bg-white/10 text-on-surface'
                     : 'text-on-surface-variant hover:bg-white/5 hover:text-on-surface'

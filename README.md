@@ -15,6 +15,7 @@ A cows and bows-style logic puzzle: break a hidden 4-color sequence in 10 attemp
 corepack enable      # one-time, enables Yarn 4
 task install         # install dependencies
 task dev             # start dev server on :3003
+task test            # unit tests (Vitest)
 task build           # production build
 task preview         # preview production build
 ```
